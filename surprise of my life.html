@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Amor</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            background: rgb(170, 50, 200);
+            color: white;
+            text-align: center;
+            height: 100vh;
+        }
+
+        header {
+            padding: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            font-family: 'Courier New', cursive;
+            border-bottom: 3px solid white;
+        }
+
+        .container {
+            padding: 40px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .love-text {
+            font-size: 24px;
+            font-style: italic;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            display: inline-block;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .gallery {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .photo {
+            width: 350px;
+            height: 350px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        .photo:hover {
+            transform: scale(1.1);
+        }
+
+        .text-section {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            font-size: 20px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            line-height: 1.8;
+            width: 48%;
+            display: inline-block;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.3);
+            font-size: 18px;
+            border-top: 2px solid white;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .countdown {
+            font-size: 32px;
+            font-weight: bold;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            width: 48%;
+            text-align: center;
+            color: #fff;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .countdown-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .countdown {
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+
+            .photo {
+                width: 100%;
+                height: 250px;
+            }
+
+            .text-section {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Nosso Amor</h1>
+    </header>
+
+    <div class="container">
+        <div class="love-text">
+            "Aqui está um texto exemplo para você modificar. Personalize esta página com uma declaração especial."
+        </div>
+
+        <div class="gallery">
+            <div class="photo">
+                <img id="photoDisplay" src="https://i.postimg.cc/QMttyfHd/IMG-8872.avif" alt="Foto do casal">
+            </div>
+        </div>
+
+        <div class="text-section">
+            <h2>O que eu sinto por você</h2>
+            <p>Escreva aqui algo lindo sobre seus sentimentos. Declare seu amor de forma especial.</p>
+        </div>
+
+        <div class="text-section">
+            <h2>Nossa história</h2>
+            <p>Este espaço é para contar como tudo começou, os momentos marcantes e o que torna esse amor único.</p>
+        </div>
+
+        <div class="text-section">
+            <h2>Sonhos para o futuro</h2>
+            <p>Aqui você pode falar sobre os planos e desejos para o futuro juntos. O que vocês querem construir?</p>
+        </div>
+
+        <div class="countdown-container">
+            <!-- Primeiro cronograma -->
+            <div>
+                <h3>Estamos juntos desde:</h3>
+                <div class="countdown" id="countdown1">
+                    Carregando cronograma...
+                </div>
+            </div>
+
+            <!-- Segundo cronograma -->
+            <div>
+                <h3>E agora faltam essa contagem para o segundo ano:</h3>
+                <div class="countdown" id="countdown2">
+                    Carregando cronograma...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Feito com amor para nós ❤️</p>
+    </footer>
+
+    <script>
+        function updateCountdown(targetDate, elementId, message, isPast) {
+            const target = new Date(targetDate).getTime();
+            const now = new Date().getTime();
+            let difference = isPast ? now - target : target - now; 
+
+            if (difference <= 0 && !isPast) {
+                document.getElementById(elementId).innerHTML = message;
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById(elementId).innerHTML = 
+                `${message}: ${days} dias, ${hours} horas, ${minutes} minutos e ${seconds} segundos ❤️`;
+        }
+
+        setInterval(() => updateCountdown("June 3, 2024 16:29:30", "countdown1", "Estamos juntos desde", true), 1000);
+        setInterval(() => updateCountdown("June 3, 2026 16:29:30", "countdown2", "E agora faltam essa contagem para o segundo ano", false), 1000);
+    </script>
+
+</body>
+</html>
